@@ -32,7 +32,14 @@ class Onewire(object):
     def get(self, *path):
         return _ow.get(str(os.path.join(self._path, *path)))
 
-    def find(self, has_all=[], has_one=[], sensor_type=None):
+    def find(self, has_all=[], has_one=[], sensor_type=[]):
+        if not isinstance(has_all, list):
+            has_all = [has_all]
+        if not isinstance(has_one, list):
+            has_one = [has_one]
+        if not isinstance(sensor_type, list):
+            sensor_type = [sensor_type]
+
         for p in self.get('').split(','):
             if not self.SENSOR_REGEX.match(p):
                 continue
@@ -45,9 +52,12 @@ class Onewire(object):
             if has_one and not [x for x in has_one if x in s.attrs]:
                 continue
             # Check if sensor_type matches
-            if sensor_type and sensor_type != s.sensor_type:
+            if sensor_type and s.sensor_type not in sensor_type:
                 continue
             yield s
+
+    def sensor(self, path):
+        return Sensor(self, path)
 
 
 class Sensor(object):
