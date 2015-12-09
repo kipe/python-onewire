@@ -5,7 +5,7 @@ import os
 import re
 
 
-class OneWire(object):
+class Onewire(object):
     _path = '/uncached/'
     initialized = False
 
