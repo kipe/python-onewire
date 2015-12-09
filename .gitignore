@@ -8,3 +8,4 @@ pip-selfcheck.json
 build
 *.so
 dist
+*.egg-info
