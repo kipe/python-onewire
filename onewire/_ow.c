@@ -27,6 +27,25 @@ static PyObject *get(PyObject *self, PyObject *args) {
     return reval;
 };
 
+static PyObject *set(PyObject *self, PyObject *args) {
+    char *path;
+    char *value;
+    int written = 0;
+
+    if (!PyArg_ParseTuple(args, "ss", &path, &value))
+        return NULL;
+
+    written = OW_put(path, value, strlen(value));
+
+    if (written > 0) {
+        PyObject *reval = Py_BuildValue("i", written);
+        return reval;
+    } else {
+        PyErr_SetFromErrno(OnewireException);
+        return NULL;
+    }
+};
+
 static PyObject *finish(PyObject *self, PyObject *args) {
     OW_finish();
     Py_RETURN_NONE;
@@ -35,7 +54,8 @@ static PyObject *finish(PyObject *self, PyObject *args) {
 static PyMethodDef _ow_methods[] = {
     {"init", init, METH_VARARGS, "Initialize 1-wire."},
     {"get", get, METH_VARARGS, "Get data from 1-wire."},
-    {"finish", finish, METH_VARARGS, "Clenup the library."},
+    {"set", set, METH_VARARGS, "Set data on 1-wire."},
+    {"finish", finish, METH_VARARGS, "Cleanup the library."},
     {NULL, NULL, 0, NULL}
 };
 
@@ -45,7 +65,7 @@ static struct PyModuleDef moduledef = {
         PyModuleDef_HEAD_INIT,
         "_ow",
         NULL,
-        0,
+        -1,
         _ow_methods,
         NULL,
         NULL,
