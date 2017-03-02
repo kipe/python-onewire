@@ -1,6 +1,7 @@
 #include <Python.h>
 #include <owcapi.h>
 
+static PyObject *OnewireException;
 
 static PyObject *init(PyObject *self, PyObject *args) {
     char *device;
@@ -66,6 +67,8 @@ void init_ow(void)
 #else
     Py_InitModule("_ow", _ow_methods);
 #endif
+
+    OnewireException = PyErr_NewException("onewire.OnewireException", NULL, NULL);
 
 #if PY_MAJOR_VERSION >= 3
     return module;
