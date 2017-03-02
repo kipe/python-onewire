@@ -94,7 +94,4 @@ void init_ow(void)
     return module;
 #endif
 
-    // Py_InitModule("_ow", _ow_methods);
 }
-
-// #endif
