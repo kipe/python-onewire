@@ -32,6 +32,9 @@ class Onewire(object):
     def get(self, *path):
         return _ow.get(str(os.path.join(self._path, *path)))
 
+    def set(self, path, value):
+        return _ow.set(path, value)
+
     def find(self, has_all=[], has_one=[], sensor_type=[]):
         if not isinstance(has_all, list):
             has_all = [has_all]
