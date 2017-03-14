@@ -1,0 +1,15 @@
+language: python
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libow-dev
+install:
+  - pip install --upgrade pytest pytest-mock pytest-cov coveralls
+  - pip install -e .
+script:
+  - pytest --cov-config .coveragerc --cov=onewire
+after_success:
+  - coveralls
