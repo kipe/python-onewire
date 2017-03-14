@@ -8,4 +8,5 @@ def test_sensor_attrs_get_infinite_recursion(mocker):
 
     o = onewire.Onewire("Testdev")
     s = o.sensor('/test/path')
-    s.read("temperature")
+    with pytest.raises(onewire.OnewireException):
+        s.read("temperature")
