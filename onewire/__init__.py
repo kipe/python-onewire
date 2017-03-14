@@ -107,5 +107,18 @@ class Sensor(object):
     def attrs(self):
         if self._attrs:
             return self._attrs
-        self._attrs = self._ow.get(self.path).split(',')
+        attributes = self._ow.get(self.path)
+        if not attributes:
+            raise OnewireException("Error fetching object: {}".format(self.path))
+        self._attrs = attributes.split(',')
         return self._attrs
+
+class OnewireException(Exception):
+    def __init__(self, msg):
+        self.msg  = msg
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __str__(self):
+        return "OnewireException: {}".format(self.msg)
