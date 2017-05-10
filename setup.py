@@ -2,7 +2,7 @@ from setuptools import setup, Extension
 
 setup(
     name='onewire',
-    version='0.1',
+    version='0.2',
     description='A wrapper for OWFS C-API, compatible with both Python 2.7 and Python 3.x.',
     author='Kimmo Huoman',
     author_email='kipenroskaposti@gmail.com',
